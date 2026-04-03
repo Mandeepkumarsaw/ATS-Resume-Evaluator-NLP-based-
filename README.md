@@ -56,7 +56,7 @@ resume-analyzer/
 1. Clone the repository:
 
 ```
-git clone https://github.com/your-username/resume-analyzer.git
+https://github.com/Mandeepkumarsaw/ATS-Resume-Evaluator-NLP-based-.git
 ```
 
 2. Navigate to the project folder:
