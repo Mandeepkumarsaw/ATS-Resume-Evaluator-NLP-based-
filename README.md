@@ -15,6 +15,9 @@ An AI-powered Resume Analyzer that evaluates resumes against job descriptions an
 
 ---
 
+## Live Demo🚀
+https://multilingual-ocr-app.streamlit.app/                     
+
 ## 🧠 How It Works
 
 1. Extracts text from the uploaded PDF resume
