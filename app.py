@@ -5,7 +5,20 @@ import nltk
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-nltk.download('punkt')
+# ---------- NLTK SETUP (FIXED) ----------
+@st.cache_resource
+def download_nltk():
+    try:
+        nltk.data.find('tokenizers/punkt')
+    except LookupError:
+        nltk.download('punkt')
+
+    try:
+        nltk.data.find('tokenizers/punkt_tab')
+    except LookupError:
+        nltk.download('punkt_tab')
+
+download_nltk()
 
 # ---------- PAGE CONFIG ----------
 st.set_page_config(page_title="ATS Resume Analyzer", page_icon="📄", layout="wide")
@@ -30,7 +43,8 @@ def extract_text_from_pdf(file):
     reader = PyPDF2.PdfReader(file)
     text = ""
     for page in reader.pages:
-        text += page.extract_text()
+        if page.extract_text():
+            text += page.extract_text()
     return text
 
 def clean_text(text):
@@ -44,9 +58,16 @@ def calculate_ats(resume, jd):
     score = cosine_similarity([vectors[0]], [vectors[1]])[0][0]
     return round(score * 100, 2)
 
+# ✅ FIXED TOKENIZER (Fallback added)
+def safe_tokenize(text):
+    try:
+        return nltk.word_tokenize(text)
+    except:
+        return text.split()  # fallback
+
 def keyword_analysis(resume, jd):
-    resume_words = set(nltk.word_tokenize(resume))
-    jd_words = set(nltk.word_tokenize(jd))
+    resume_words = set(safe_tokenize(resume))
+    jd_words = set(safe_tokenize(jd))
     return resume_words.intersection(jd_words), jd_words - resume_words
 
 # ---------- UI ----------
