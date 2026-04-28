@@ -71,7 +71,7 @@ def keyword_analysis(resume, jd):
     return resume_words.intersection(jd_words), jd_words - resume_words
 
 # ---------- UI ----------
-st.title("📄 AI Resume Analyzer")
+st.title("📄Resume Analyzer")
 st.caption("Check your resume ATS score instantly")
 
 col1, col2 = st.columns(2)
